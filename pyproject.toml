@@ -1,0 +1,20 @@
+[project]
+name = "sql-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Gabriel Sandoval", email = "gabsthedeveloper@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "duckdb>=1.5.5",
+    "pydantic-ai>=2.51.0",
+]
+
+[project.scripts]
+sql-agent = "sql_agent:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
