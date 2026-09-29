@@ -1,4 +1,4 @@
-# Coding Agent
+# SQL Multi-Agent System
 ## Overview
 The purpose of this project was to extract large volumes of data and enable an agent to respond to related questions. Because the system needed to manage massive data without overwhelming the LLM or exhausting tokens, it evolved into a multi-agent system. <br /><br />
 
