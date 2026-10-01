@@ -1,5 +1,5 @@
 [project]
-name = "sql-agent"
+name = "sql-multi-agent-system"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -8,13 +8,17 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "dotenv>=0.9.9",
     "duckdb>=1.5.5",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
     "pydantic-ai>=2.51.0",
+    "rich>=15.0.0",
     "sqlglot>=30.20.0",
 ]
 
 [project.scripts]
-sql-agent = "sql_agent:main"
+sql-agent = "sql_multi_agent_system:main"
 
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]

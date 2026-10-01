@@ -28,6 +28,7 @@ CSV_FILE_PATH = "data.csv"
 
 
 console = Console()
+# Define the model
 model = OllamaModel(
     model_name=LLM_MODEL,
     provider=OllamaProvider(
@@ -77,7 +78,7 @@ sql_generation_agent = Agent(
 
 
 @logfire.instrument()
-def validate_ast_sql(query: str, allowed_table: str = "nodes") -> tuple[bool, str]:
+def validate_ast_sql(query: str, allowed_table: str = "csvdata") -> tuple[bool, str]:
     """
     Validates a SQL query using AST parsing.
     Returns (is_valid, error_message).
@@ -172,17 +173,17 @@ if __name__ == "__main__":
     # Get data
     file_path = Path(CSV_FILE_PATH)
     if not file_path.is_file():
-        console.print("[bold red]Could not create or find the nodes data file. Exiting.[/bold red]")
+        console.print("[bold red]Could not find the csv file. Exiting.[/bold red]")
         exit()
 
     # Connect to database
     db_connect = duckdb.connect(database=':memory:')
 
     # Introspect schema safely
-    db_connect.execute(f"CREATE TABLE nodes AS SELECT * FROM read_csv_auto('{CSV_FILE_PATH}')")
-    raw_schema = db_connect.execute(f"DESCRIBE nodes").fetchall()
+    db_connect.execute(f"CREATE TABLE csvdata AS SELECT * FROM read_csv_auto('{CSV_FILE_PATH}')")
+    raw_schema = db_connect.execute(f"DESCRIBE csvdata").fetchall()
     schema_text = "\n".join([f"- Column '{col[0]}' ({col[1]})" for col in raw_schema])
-    dependencies = AgentDependencies(db_connection=db_connect, table_name="nodes", schema_info=schema_text)
+    dependencies = AgentDependencies(db_connection=db_connect, table_name="csvdata", schema_info=schema_text)
 
     # Initialize chat history
     message_history = []
@@ -226,7 +227,6 @@ if __name__ == "__main__":
                     continue
             
             # Output results
-            console.print(f"\n[cyan]--- Final Verified SQL Query ---[/cyan]\n{verified_sql}\n")
             console.print(f"[blue]Assistant:[/blue] {final_output.output}")
 
             # Update history with the new input
